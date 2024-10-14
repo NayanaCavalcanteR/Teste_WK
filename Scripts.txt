@@ -1,0 +1,100 @@
+-- Exclui o banco
+drop database TESTE_WK;
+
+-- Criação do banco de dados TESTE_WK
+create database TESTE_WK;
+
+use TESTE_WK;
+
+-- Tabela Clientes
+create table Clientes (
+	codigo int not null auto_increment,
+    nome varchar(50) not null,
+    cidade varchar(50),
+    uf varchar(2),
+    constraint pk_clientes primary key (codigo)
+);
+
+-- Tabela Produtos
+create table Produtos (
+	codigo int not null auto_increment,
+    descricao varchar(150) not null,
+    preco_venda numeric(7,2),
+    constraint pk_produtos primary key (codigo)
+);
+
+-- Tabela Pedidos
+create table Pedidos (
+	num_pedido int not null auto_increment,
+    data_emissao date not null,
+    cod_cliente int not null,
+    valor_total numeric(10,2),
+    constraint pk_pedidos primary key (num_pedido)
+);
+
+-- Tabela Itens_Pedido
+create table Itens_Pedido (
+	codigo int not null auto_increment,
+    num_pedido int not null,
+    cod_produto int not null,
+    quantidade int,
+    valor_unitario numeric(7,2),
+    valor_total numeric(10,2),    
+    constraint pk_itens_pedido primary key (codigo,num_pedido)
+);
+
+-- Criação das chaves estrangeiras
+ALTER TABLE Pedidos ADD CONSTRAINT fk_pedidos_cliente FOREIGN KEY (cod_cliente) REFERENCES clientes(codigo);
+ALTER TABLE Itens_Pedido ADD CONSTRAINT fk_itens_pedido_pedido FOREIGN KEY (num_pedido) REFERENCES pedidos(num_pedido);
+ALTER TABLE Itens_Pedido ADD CONSTRAINT fk_itens_pedido_produto FOREIGN KEY (cod_produto) REFERENCES produtos(codigo);
+
+-- Criação dos índices
+CREATE INDEX idx_nome_cliente ON Clientes (nome);
+CREATE INDEX idx_descricao_produtos ON Produtos (descricao);
+CREATE INDEX idx_data_emissao_pedidos ON Pedidos (data_emissao);
+CREATE INDEX idx_produto_itens_pedido ON Itens_Pedido (cod_produto);
+
+-- Registros da tabela Clientes
+insert into clientes (nome, cidade, uf) values ('Ana', 'Fortaleza', 'CE');
+insert into clientes (nome, cidade, uf) values ('Andre', 'Fortaleza', 'CE');
+insert into clientes (nome, cidade, uf) values ('Antonio', 'Fortaleza', 'CE');
+insert into clientes (nome, cidade, uf) values ('Bruno', 'Recife', 'PE');
+insert into clientes (nome, cidade, uf) values ('Bianca', 'Recife', 'PE');
+insert into clientes (nome, cidade, uf) values ('Bruna', 'Recife', 'PE');
+insert into clientes (nome, cidade, uf) values ('Carlos', 'Salvador', 'BA');
+insert into clientes (nome, cidade, uf) values ('Cleo', 'Salvador', 'BA');
+insert into clientes (nome, cidade, uf) values ('Cesar', 'Salvador', 'BA');
+insert into clientes (nome, cidade, uf) values ('Diego', 'Belo Horizonte', 'MG');
+insert into clientes (nome, cidade, uf) values ('Dante', 'Belo Horizonte', 'MG');
+insert into clientes (nome, cidade, uf) values ('Diva', 'Belo Horizonte', 'MG');
+insert into clientes (nome, cidade, uf) values ('Edson', 'Brasilia', 'DF');
+insert into clientes (nome, cidade, uf) values ('Edna', 'Brasilia', 'DF');
+insert into clientes (nome, cidade, uf) values ('Emerson', 'Brasilia', 'DF');
+insert into clientes (nome, cidade, uf) values ('Fabiola', 'Porto Alegre', 'RS');
+insert into clientes (nome, cidade, uf) values ('Fatima', 'Porto Alegre', 'RS');
+insert into clientes (nome, cidade, uf) values ('Felipe', 'Porto Alegre', 'RS');
+insert into clientes (nome, cidade, uf) values ('Gustavo', 'Belem', 'PA');
+insert into clientes (nome, cidade, uf) values ('Greta', 'Belem', 'PA');
+
+-- Registros da tabela Produtos
+insert into produtos (descricao, preco_venda) values ('Absorvente com abas diurno c/ 32', 15.50);
+insert into produtos (descricao, preco_venda) values ('Absorvente com abas noturno c/ 32', 21.45);
+insert into produtos (descricao, preco_venda) values ('Protetor diário c/ 40', 11.99);
+insert into produtos (descricao, preco_venda) values ('Pasta dental sensitive sensodyne 90g', 11.35);
+insert into produtos (descricao, preco_venda) values ('Pasta dental sorriso 180g', 7.99);
+insert into produtos (descricao, preco_venda) values ('Escova dental soft', 20.00);
+insert into produtos (descricao, preco_venda) values ('Sabonete liquido rexona', 12.56);
+insert into produtos (descricao, preco_venda) values ('Sabonete em barra rexona', 2.39);
+insert into produtos (descricao, preco_venda) values ('Sabonete em barra glicerina Granado', 4.50);
+insert into produtos (descricao, preco_venda) values ('Desodorante dove men invisible', 18.50);
+insert into produtos (descricao, preco_venda) values ('Desodorante dove women invisible', 18.50);
+insert into produtos (descricao, preco_venda) values ('Desodorante monagen invisible', 11.30);
+insert into produtos (descricao, preco_venda) values ('Hidratante corporal nivea', 22.54);
+insert into produtos (descricao, preco_venda) values ('Hidratante corporal Cerave', 70.00);
+insert into produtos (descricao, preco_venda) values ('Hidratante mãos Cerave', 56.50);
+insert into produtos (descricao, preco_venda) values ('Hidratante pés Cerave', 62.32);
+insert into produtos (descricao, preco_venda) values ('Tylenol cartela c/ 4 comprimidos', 9.00);
+insert into produtos (descricao, preco_venda) values ('Tylenol caixa', 15.00);
+insert into produtos (descricao, preco_venda) values ('Cotonetes c/ 50', 7.34);
+insert into produtos (descricao, preco_venda) values ('Cotonetes c/ 200', 18.50);
+
